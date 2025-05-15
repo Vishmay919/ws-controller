@@ -11,7 +11,14 @@ app.use(cors());
 app.get("/", (_, res) => res.send("✅ Remote Control Server is live"));
 
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: "*" } });
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+  transports: ["websocket", "polling"], // ✅ add this line
+});
+
 
 io.on("connection", socketConnectionHandler);
 
